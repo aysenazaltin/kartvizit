@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hızlı Dijital Kartvizit</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f4f9; display: flex; justify-content: center; padding: 20px; }
+        .setup-box { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); width: 100%; max-width: 380px; text-align: center; }
+        h2 { color: #333; margin-bottom: 20px; font-size: 20px; }
+        .input-group { text-align: left; margin-bottom: 12px; }
+        label { display: block; font-size: 12px; font-weight: bold; color: #666; margin-bottom: 4px; }
+        input, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+        button { width: 100%; padding: 15px; background: #007bff; color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 10px; }
+        #qr-area { margin-top: 30px; display: none; }
+        .qr-output { background: white; padding: 15px; display: inline-block; border: 1px solid #eee; border-radius: 12px; }
+    </style>
+</head>
+<body>
+
+<div class="setup-box">
+    <h2>Dijital Kartvizit Hazırla</h2>
+    
+    <div class="input-group"><label>AD SOYAD</label><input type="text" id="name" placeholder="Örn: Ayşenaz Yılmaz"></div>
+    <div class="input-group"><label>MESLEK</label><input type="text" id="job" placeholder="Örn: Tasarımcı"></div>
+    <div class="input-group"><label>İLGİ ALANLARI</label><textarea id="interests" placeholder="Örn: Sanat, Teknoloji"></textarea></div>
+    <div class="input-group"><label>E-POSTA</label><input type="email" id="email" placeholder="mail@ornek.com"></div>
+    <div class="input-group"><label>TELEFON</label><input type="tel" id="phone" placeholder="05XX XXX XX XX"></div>
+
+    <button onclick="makeFinalQR()">KARTVİZİT OLUŞTUR</button>
+
+    <div id="qr-area">
+        <div class="qr-output" id="qr-img"></div>
+        <p style="font-size: 13px; color: #666; margin-top: 15px;">Okutunca bilgileriniz alt alta liste olarak görünecektir.</p>
+    </div>
+</div>
+
+<script>
+function makeFinalQR() {
+    const n = document.getElementById('name').value;
+    const j = document.getElementById('job').value;
+    const i = document.getElementById('interests').value;
+    const e = document.getElementById('email').value;
+    const p = document.getElementById('phone').value;
+
+    if(!n) { alert("Lütfen isim giriniz!"); return; }
+
+    // TELEFON EKRANINDA "MİNİ CV" GİBİ DURACAK DÜZEN
+    // Bilgileri net başlıklar ve satır boşluklarıyla diziyoruz.
+    let content = `━━━━━━━━━━━━━━━\n`;
+    content += `  📇 KARTVİZİT BİLGİLERİ\n`;
+    content += `━━━━━━━━━━━━━━━\n\n`;
+    content += `👤 İSİM: ${n}\n\n`;
+    content += `💼 MESLEK: ${j || '-'}\n\n`;
+    content += `📧 E-POSTA: ${e || '-'}\n\n`;
+    content += `📞 TELEFON: ${p || '-'}\n\n`;
+    content += `🌟 İLGİLER: ${i || '-'}\n\n`;
+    content += `━━━━━━━━━━━━━━━`;
+
+    // QR oluşturma (En hafif ve hızlı servis)
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(content)}`;
+    
+    document.getElementById('qr-img').innerHTML = `<img src="${qrUrl}" style="width:200px; height:200px;">`;
+    document.getElementById('qr-area').style.display = 'block';
+    
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
