@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diji-Card Pro | Kendi Kartvizitini Oluştur</title>
+    <title>Diji-Card Pro | Erişilebilir Kartvizit</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -11,103 +11,112 @@
         :root { --bg: #0f172a; --card-bg: #1e293b; --accent: #38bdf8; --text: #f8fafc; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         
-        /* Form Bölümü */
-        .input-container { background: var(--card-bg); padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; margin-bottom: 30px; border: 1px solid #334155; }
-        h2 { color: var(--accent); margin-top: 0; text-align: center; font-size: 20px; }
-        .input-group { margin-bottom: 12px; text-align: left; }
-        label { font-size: 11px; color: #94a3b8; font-weight: 600; }
-        input { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; margin-top: 5px; box-sizing: border-box; }
+        /* Bilgi Giriş Formu */
+        .form-box { background: var(--card-bg); padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; margin-bottom: 30px; border: 1px solid #334155; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        label { font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase; }
+        input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; margin-top: 5px; box-sizing: border-box; }
 
-        /* Kart Görünümü (Senin Beğendiğin Tasarım) */
-        .preview-card { background: var(--card-bg); width: 100%; max-width: 380px; border-radius: 25px; padding: 30px; text-align: center; border: 1px solid #334155; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        .p-name { color: var(--accent); font-size: 24px; font-weight: 700; margin: 0; text-transform: uppercase; }
-        .p-job { color: #94a3b8; font-size: 14px; margin: 5px 0 20px 0; }
-        .info-box { background: #0f172a; padding: 15px; border-radius: 20px; text-align: left; margin-bottom: 20px; }
-        .info-row { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; font-size: 13px; }
-        .info-row i { color: var(--accent); width: 20px; }
-        .info-row b { color: var(--accent); width: 70px; }
-
-        /* Sosyal Medya */
-        .social-row { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
-        .social-icon { width: 40px; height: 40px; border-radius: 50%; background: #334155; display: flex; justify-content: center; align-items: center; color: white; text-decoration: none; }
+        /* Kart Tasarımı (Senin Beğendiğin Stil) */
+        #cardToExport { background: var(--card-bg); width: 100%; max-width: 380px; border-radius: 25px; padding: 30px; text-align: center; border: 1px solid #334155; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .name-tag { color: var(--accent); font-size: 26px; font-weight: 700; margin: 0; }
+        .job-tag { color: #94a3b8; font-size: 14px; margin: 5px 0 20px 0; }
+        
+        .info-container { background: #0f172a; padding: 20px; border-radius: 20px; text-align: left; margin-bottom: 20px; border-left: 4px solid var(--accent); }
+        .info-item { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 14px; }
+        .info-item i { color: var(--accent); width: 20px; }
+        
+        /* Sosyal Medya İkonları */
+        .social-box { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .social-link { width: 45px; height: 45px; border-radius: 50%; background: #334155; display: flex; justify-content: center; align-items: center; color: white; text-decoration: none; font-size: 20px; transition: 0.3s; }
+        .social-link:hover { background: var(--accent); transform: translateY(-3px); }
 
         /* Butonlar */
-        .btn { width: 100%; padding: 14px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
+        .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
         .btn-qr { background: var(--accent); color: #0f172a; }
         .btn-pdf { background: #10b981; color: white; }
-        .btn:hover { transform: scale(1.02); opacity: 0.9; }
-
-        #qrArea { display: none; margin-top: 20px; background: white; padding: 15px; border-radius: 15px; }
+        
+        #qrDisplay { display: none; margin-top: 20px; background: white; padding: 20px; border-radius: 15px; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="input-container">
-        <h2><i class="fas fa-edit"></i> Bilgilerini Gir</h2>
-        <div class="input-group"><label>AD SOYAD</label><input type="text" id="inName" placeholder="Örn: Ayşenaz Altın" onkeyup="live()"></div>
-        <div class="input-group"><label>MESLEK</label><input type="text" id="inJob" placeholder="Örn: Mühendis" onkeyup="live()"></div>
-        <div class="input-group"><label>TELEFON</label><input type="text" id="inTel" placeholder="05XX XXX XX XX" onkeyup="live()"></div>
-        <div class="input-group"><label>E-POSTA</label><input type="text" id="inMail" placeholder="ornek@gmail.com" onkeyup="live()"></div>
-        <div class="input-group"><label>INSTAGRAM (Link)</label><input type="text" id="inInsta" placeholder="https://..." onkeyup="live()"></div>
-        <button class="btn btn-qr" onclick="genQR()"><i class="fas fa-qrcode"></i> REHBERE EKLE (QR)</button>
+    <div class="form-box">
+        <h2 style="color: var(--accent); margin-top:0;">Kartvizit Oluşturucu</h2>
+        <div class="input-group"><label>Ad Soyad</label><input type="text" id="iName" placeholder="Ayşenaz Altın" onkeyup="update()"></div>
+        <div class="input-group"><label>Meslek</label><input type="text" id="iJob" placeholder="Elektrik Elektronik" onkeyup="update()"></div>
+        <div class="input-group"><label>Telefon</label><input type="text" id="iTel" placeholder="0543..." onkeyup="update()"></div>
+        <div class="input-group"><label>Instagram Linki</label><input type="text" id="iInsta" placeholder="https://instagram.com/kullanici" onkeyup="update()"></div>
+        <div class="input-group"><label>LinkedIn Linki</label><input type="text" id="iLinke" placeholder="https://linkedin.com/in/kullanici" onkeyup="update()"></div>
+        
+        <button class="btn btn-qr" onclick="generate()"><i class="fas fa-qrcode"></i> ERİŞİLEBİLİR QR OLUŞTUR</button>
     </div>
 
-    <div class="preview-card" id="cardToExport">
-        <h1 class="p-name" id="outName">ADINIZ SOYADINIZ</h1>
-        <p class="p-job" id="outJob">Mesleğiniz Buraya</p>
+    <div id="cardToExport">
+        <h1 class="name-tag" id="oName">AYŞENAZ ALTIN</h1>
+        <p class="job-tag" id="oJob">Elektrik Elektronik Mühendisi</p>
         
-        <div class="info-box">
-            <div class="info-row"><i class="fas fa-phone"></i> <b>Telefon:</b> <span id="outTel">-</span></div>
-            <div class="info-row"><i class="fas fa-envelope"></i> <b>E-Posta:</b> <span id="outMail">-</span></div>
-            <div class="info-row"><i class="fas fa-briefcase"></i> <b>Meslek:</b> <span id="outJob2">-</span></div>
-            <div class="info-row"><i class="fas fa-star"></i> <b>İlgiler:</b> Sanat, Kodlama</div>
+        <div class="info-container">
+            <div class="info-item"><i class="fas fa-phone"></i> <b>Tel:</b> <span id="oTel">0543 874 59 87</span></div>
+            <div class="info-item"><i class="fas fa-envelope"></i> <b>Mail:</b> aysenazaltin@gmail.com</div>
+            <div class="info-item"><i class="fas fa-star"></i> <b>İlgiler:</b> Sanat, Kodlama</div>
         </div>
 
-        <div class="social-row">
-            <a href="#" class="social-icon" id="linkInsta"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
-            <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+        <div class="social-box">
+            <a href="#" class="social-link" id="lInsta" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link" id="lLinke" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="social-link" target="_blank"><i class="fab fa-github"></i></a>
         </div>
 
-        <button class="btn btn-pdf" onclick="pdf()"><i class="fas fa-file-pdf"></i> KARTVİZİTİ İNDİR (PDF)</button>
+        <button class="btn btn-pdf" onclick="savePDF()"><i class="fas fa-file-pdf"></i> KARTVİZİTİ PDF İNDİR</button>
 
-        <div id="qrArea">
-            <div id="qrImg"></div>
-            <p style="color:#0f172a; font-size:10px; margin-top:5px;">Okutunca rehbere ekler.</p>
+        <div id="qrDisplay">
+            <div id="qrPlace"></div>
+            <p style="color:#0f172a; font-size:11px; font-weight:bold; margin-top:8px;">Okutan kişi linklerine ulaşabilir!</p>
         </div>
     </div>
 
     <script>
-        function live() {
-            const name = document.getElementById("inName").value || "ADINIZ SOYADINIZ";
-            const job = document.getElementById("inJob").value || "Mesleğiniz Buraya";
-            const tel = document.getElementById("inTel").value || "-";
-            const mail = document.getElementById("inMail").value || "-";
-            const insta = document.getElementById("inInsta").value || "#";
-
-            document.getElementById("outName").innerText = name;
-            document.getElementById("outJob").innerText = job;
-            document.getElementById("outJob2").innerText = job;
-            document.getElementById("outTel").innerText = tel;
-            document.getElementById("outMail").innerText = mail;
-            document.getElementById("linkInsta").href = insta;
+        // Anlık güncelleme
+        function update() {
+            document.getElementById("oName").innerText = document.getElementById("iName").value || "AYŞENAZ ALTIN";
+            document.getElementById("oJob").innerText = document.getElementById("iJob").value || "Elektrik Elektronik Mühendisi";
+            document.getElementById("oTel").innerText = document.getElementById("iTel").value || "0543 874 59 87";
+            
+            const insta = document.getElementById("iInsta").value || "#";
+            const linke = document.getElementById("iLinke").value || "#";
+            document.getElementById("lInsta").href = insta;
+            document.getElementById("lLinke").href = linke;
         }
 
-        function genQR() {
-            const name = document.getElementById("inName").value;
-            const tel = document.getElementById("inTel").value;
-            const vcard = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTEL:${tel}\nEND:VCARD`;
-            const url = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(vcard)}`;
-            document.getElementById("qrImg").innerHTML = `<img src="${url}">`;
-            document.getElementById("qrArea").style.display = "block";
+        // QR Oluşturma (vCard Formatında - Herkese Erişilebilir)
+        function generate() {
+            const name = document.getElementById("iName").value || "Ayşenaz Altın";
+            const tel = document.getElementById("iTel").value || "05438745987";
+            const insta = document.getElementById("iInsta").value || "";
+            const linke = document.getElementById("iLinke").value || "";
+
+            // vCard içine linkleri gömüyoruz
+            const vCard = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTEL:${tel}\nURL:${insta}\nURL:${linke}\nEND:VCARD`;
+            const url = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(vCard)}`;
+            
+            document.getElementById("qrPlace").innerHTML = `<img src="${url}">`;
+            document.getElementById("qrDisplay").style.display = "block";
         }
 
-        function pdf() {
+        // PDF Kaydetme
+        function savePDF() {
             const element = document.getElementById('cardToExport');
-            html2pdf().from(element).set({
-                margin: 10, filename: 'Kartvizit.pdf', html2canvas: { scale: 3 }, jsPDF: { unit: 'mm', format: 'a4' }
-            }).save();
+            const opt = {
+                margin: 10,
+                filename: 'Dijital_Kartvizit.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 3 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().from(element).set(opt).save();
         }
     </script>
 </body>
-                                                                                                          </html>
+</html>
