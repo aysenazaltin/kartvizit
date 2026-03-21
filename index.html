@@ -2,123 +2,112 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dijital Kartvizit</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 body {
-    font-family: Arial;
-    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #0f172a;
+    color: white;
     text-align: center;
 }
 
-input {
+.container {
+    padding: 20px;
+}
+
+img.profile {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-top: 20px;
+    border: 3px solid #38bdf8;
+}
+
+h1 {
+    margin: 10px 0 5px;
+}
+
+p.bio {
+    color: #cbd5f5;
+}
+
+.buttons a {
     display: block;
     margin: 10px auto;
-    padding: 10px;
-    width: 250px;
+    padding: 12px;
+    width: 80%;
+    max-width: 300px;
+    background: #38bdf8;
+    color: black;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
 }
 
-button {
-    padding: 10px;
-    border: none;
-    background: black;
-    color: white;
+.projects {
+    margin-top: 20px;
 }
 
-.card {
-    background: white;
-    padding: 20px;
-    margin: 30px auto;
-    width: 300px;
-    border-radius: 20px;
-    display: none;
+.project-card {
+    background: #1e293b;
+    margin: 10px auto;
+    padding: 15px;
+    width: 90%;
+    max-width: 350px;
+    border-radius: 10px;
 }
+
+.project-card h3 {
+    margin: 5px 0;
+}
+
+.project-card a {
+    color: #38bdf8;
+    text-decoration: none;
+}
+
 </style>
-
 </head>
 
 <body>
 
-<div id="form">
-    <h2>Kartvizit Oluştur</h2>
+<div class="container">
 
-    <input id="ad" placeholder="Ad">
-    <input id="meslek" placeholder="Meslek">
-    <input id="ilgi" placeholder="İlgi">
-    <input id="email" placeholder="Email">
-    <input id="linkedin" placeholder="LinkedIn">
+    <!-- PROFİL -->
+    <img src="https://via.placeholder.com/120" class="profile">
+    <h1>Ad Soyad</h1>
+    <p class="bio">Elektrik-Elektronik Mühendisliği öğrencisi | Güç elektroniği ve yazılım ile ilgileniyorum.</p>
 
-    <button onclick="olustur()">QR Oluştur</button>
+    <!-- BUTONLAR -->
+    <div class="buttons">
+        <a href="mailto:mail@example.com">📧 Mail Gönder</a>
+        <a href="#">💼 LinkedIn</a>
+        <a href="#">💻 GitHub</a>
+        <a href="cv.pdf" download>📄 CV İndir</a>
+    </div>
 
-    <div id="qrcode"></div>
+    <!-- PROJELER -->
+    <div class="projects">
+        <h2>Projelerim</h2>
+
+        <div class="project-card">
+            <h3>Dijital Kartvizit</h3>
+            <p>QR kod ile çalışan kişisel kartvizit sistemi</p>
+            <a href="#">Projeyi Gör</a>
+        </div>
+
+        <div class="project-card">
+            <h3>Güç Elektroniği Seçim Programı</h3>
+            <p>MOSFET, IGBT öneri sistemi</p>
+            <a href="#">Projeyi Gör</a>
+        </div>
+
+    </div>
+
 </div>
-
-<div class="card" id="cv">
-    <h2 id="c_ad"></h2>
-    <p id="c_meslek"></p>
-    <p id="c_ilgi"></p>
-    <p id="c_email"></p>
-    <a id="c_linkedin" target="_blank">LinkedIn</a>
-    <br><br>
-    <button onclick="pdf()">PDF İndir</button>
-</div>
-
-<script>
-
-// SAYFA AÇILINCA
-let params = new URLSearchParams(window.location.search);
-let data = params.get("data");
-
-if(data){
-    let arr = data.split("|");
-
-    document.getElementById("form").style.display = "none";
-    document.getElementById("cv").style.display = "block";
-
-    document.getElementById("c_ad").innerText = arr[0];
-    document.getElementById("c_meslek").innerText = arr[1];
-    document.getElementById("c_ilgi").innerText = arr[2];
-    document.getElementById("c_email").innerText = arr[3];
-
-    document.getElementById("c_linkedin").href = arr[4];
-}
-
-
-// QR OLUŞTUR
-function olustur(){
-
-    let veri = [
-        document.getElementById("ad").value,
-        document.getElementById("meslek").value,
-        document.getElementById("ilgi").value,
-        document.getElementById("email").value,
-        document.getElementById("linkedin").value
-    ].join("|");
-
-    let link = window.location.href.split("?")[0] + "?data=" + veri;
-
-    document.getElementById("qrcode").innerHTML = "";
-    new QRCode(document.getElementById("qrcode"), link);
-}
-
-
-// PDF
-function pdf(){
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    doc.text(document.getElementById("c_ad").innerText, 10, 10);
-    doc.text(document.getElementById("c_meslek").innerText, 10, 20);
-    doc.text(document.getElementById("c_ilgi").innerText, 10, 30);
-    doc.text(document.getElementById("c_email").innerText, 10, 40);
-
-    doc.save("cv.pdf");
-}
-
-</script>
 
 </body>
 </html>
