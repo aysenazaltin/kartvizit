@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diji-Card | Dijital Kimlik</title>
+    <title>Diji-Card | Ayşenaz Altın</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #f8fafc; }
@@ -13,22 +13,22 @@
         .form-group { text-align: left; margin-bottom: 12px; }
         label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-left: 5px; }
         input { width: 100%; padding: 12px 15px; border-radius: 12px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; outline: none; margin-top: 5px; transition: 0.3s; }
-        input:focus { border-color: var(--accent); }
         
-        .main-btn { width: 100%; padding: 16px; background: var(--accent); color: var(--bg); border: none; border-radius: 15px; font-weight: 700; cursor: pointer; margin-top: 20px; font-size: 14px; transition: 0.3s; }
-        .main-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3); }
-
-        #resultArea { display: none; margin-top: 30px; animation: fadeInUp 0.5s ease; }
-        #qrImg { background: white; padding: 15px; border-radius: 20px; box-shadow: 0 0 30px rgba(56, 189, 248, 0.2); width: 150px; }
+        .main-btn { width: 100%; padding: 16px; background: var(--accent); color: var(--bg); border: none; border-radius: 15px; font-weight: 700; cursor: pointer; margin-top: 20px; font-size: 14px; }
         
-        .action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .btn-small { padding: 12px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; text-decoration: none; display: inline-block; }
-        .btn-save { background: #10b981; color: white; }
-        .btn-cv { background: #f59e0b; color: white; }
+        #resultArea { display: none; animation: fadeInUp 0.5s ease; }
+        #qrImg { background: white; padding: 15px; border-radius: 20px; width: 150px; margin-bottom: 20px; }
         
-        .info-display { background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 20px; margin-top: 20px; text-align: left; border: 1px solid #334155; }
-        .info-row { margin-bottom: 8px; font-size: 13px; display: flex; }
-        .info-row b { color: var(--accent); width: 85px; flex-shrink: 0; }
+        .action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+        .btn-small { padding: 14px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; color: white; text-decoration: none; }
+        .btn-save { background: #10b981; } /* Yeşil */
+        .btn-cv { background: #f59e0b; }   /* Turuncu */
+        .btn-small:hover { opacity: 0.9; transform: scale(1.02); }
+        
+        .info-display { background: rgba(15, 23, 42, 0.8); padding: 25px; border-radius: 20px; text-align: left; border: 1px solid #334155; }
+        .info-row { margin-bottom: 10px; font-size: 14px; display: flex; align-items: flex-start; }
+        .info-row b { color: var(--accent); width: 90px; flex-shrink: 0; }
+        .info-row span { color: #cbd5e1; word-break: break-all; }
         
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -36,33 +36,35 @@
 <body>
 
 <div class="container">
-    <h2>DIJI-CARD</h2>
+    <h2 id="title">DIJI-CARD</h2>
     
     <div id="formArea">
         <div class="form-group"><label>Ad Soyad</label><input type="text" id="name" placeholder="Ayşenaz Altın"></div>
-        <div class="form-group"><label>Meslek</label><input type="text" id="job" placeholder="Yazılım Geliştirici"></div>
-        <div class="form-group"><label>Telefon</label><input type="tel" id="phone" placeholder="05XX XXX XX XX"></div>
-        <div class="form-group"><label>E-posta</label><input type="email" id="email" placeholder="mail@ornek.com"></div>
-        <div class="form-group"><label>LinkedIn (URL)</label><input type="url" id="linkedin" placeholder="linkedin.com/in/kullanici"></div>
-        
-        <button class="main-btn" onclick="olustur()">PROFESYONEL KOD OLUŞTUR</button>
+        <div class="form-group"><label>Meslek</label><input type="text" id="job" placeholder="Elektrik Elektronik Mühendisi"></div>
+        <div class="form-group"><label>Telefon</label><input type="tel" id="phone" placeholder="05XXXXXXXXX"></div>
+        <div class="form-group"><label>E-posta</label><input type="email" id="email" placeholder="mail@gmail.com"></div>
+        <div class="form-group"><label>LinkedIn (URL)</label><input type="url" id="linkedin" placeholder="LinkedIn Profil Linkin"></div>
+        <button class="main-btn" onclick="olustur()">PAYLAŞILABİLİR KART OLUŞTUR</button>
     </div>
 
     <div id="resultArea">
-        <div id="qrPlaceholder"></div>
+        <div id="qrContainer">
+            <div id="qrPlaceholder"></div>
+            <p style="font-size: 11px; color: #94a3b8;">Bu senin özel QR kodun. Bunu kaydedip paylaşabilirsin.</p>
+            <hr style="border: 0.5px solid #334155; margin: 20px 0;">
+        </div>
         
+        <div class="info-display">
+            <div style="font-size: 20px; font-weight: 700; margin-bottom: 15px; color: var(--accent); text-transform: capitalize;" id="dName"></div>
+            <div class="info-row"><b>Meslek:</b> <span id="dJob"></span></div>
+            <div class="info-row"><b>E-posta:</b> <span id="dMail"></span></div>
+            <div class="info-row"><b>LinkedIn:</b> <span id="dLink"></span></div>
+        </div>
+
         <div class="action-buttons">
             <button class="btn-small btn-save" onclick="saveVCard()">Rehbere Ekle</button>
             <button class="btn-small btn-cv" onclick="downloadMiniCV()">CV İndir</button>
         </div>
-
-        <div class="info-display">
-            <div style="font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--accent);" id="dName"></div>
-            <div class="info-row"><b>Meslek:</b> <span id="dJob"></span></div>
-            <div class="info-row"><b>E-posta:</b> <span id="dMail"></span></div>
-            <div class="info-row"><b>LinkedIn:</b> <span id="dLink" style="word-break: break-all;"></span></div>
-        </div>
-        <p style="font-size: 10px; color: #64748b; margin-top: 15px;">QR kodu okutan kişi bu ekrandan seçiminizi yapabilir.</p>
     </div>
 </div>
 
@@ -78,26 +80,26 @@
             l: document.getElementById("linkedin").value
         };
 
-        if(!data.n || !data.j) { alert("Lütfen isim ve meslek girin!"); return; }
-        globalData = data;
-
-        // Sayfa URL'sini parametrelerle oluştur (Bu sayede QR okutan buraya gelir)
+        if(!data.n) { alert("Lütfen isim girin!"); return; }
+        
+        // QR kodun içine şu anki URL'yi ve verileri ekle
         const baseUrl = window.location.href.split('?')[0];
         const params = new URLSearchParams(data).toString();
         const finalLink = `${baseUrl}?${params}`;
 
-        // QR Oluştur (Linke yönlendirir)
-        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(finalLink)}`;
-        document.getElementById("qrPlaceholder").innerHTML = `<img src="${qrUrl}" id="qrImg" alt="QR Kod">`;
-
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(finalLink)}`;
+        document.getElementById("qrPlaceholder").innerHTML = `<img src="${qrUrl}" id="qrImg">`;
+        
+        globalData = data;
         displayData(data);
     }
 
     function displayData(data) {
+        document.getElementById("formArea").style.display = "none";
         document.getElementById("resultArea").style.display = "block";
         document.getElementById("dName").innerText = data.n;
-        document.getElementById("dJob").innerText = data.j;
-        document.getElementById("dMail").innerText = data.m;
+        document.getElementById("dJob").innerText = data.j || "-";
+        document.getElementById("dMail").innerText = data.m || "-";
         document.getElementById("dLink").innerText = data.l || "-";
     }
 
@@ -112,42 +114,30 @@
     }
 
     function downloadMiniCV() {
-        const cvContent = `
-        ---------------------------
-        DIJI-CARD MINI CV
-        ---------------------------
-        AD SOYAD: ${globalData.n}
-        MESLEK: ${globalData.j}
-        İLETİŞİM: ${globalData.p}
-        E-POSTA: ${globalData.m}
-        LINKEDIN: ${globalData.l}
-        ---------------------------
-        Tarih: ${new Date().toLocaleDateString('tr-TR')}
-        `;
+        const cvContent = `DIJI-CARD PROFESYONEL ÖZET\n\nİSİM: ${globalData.n}\nMESLEK: ${globalData.j}\nTEL: ${globalData.p}\nMAIL: ${globalData.m}\nLINKEDIN: ${globalData.l}\n\nOluşturulma Tarihi: ${new Date().toLocaleDateString('tr-TR')}`;
         const blob = new Blob([cvContent], { type: "text/plain" });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${globalData.n}_MiniCV.txt`;
+        a.download = `${globalData.n}_CV.txt`;
         a.click();
     }
 
-    // Sayfa parametreyle açıldıysa (QR okutulunca) otomatik doldur
+    // OTOMATİK ÇALIŞTIRMA (QR okutulunca)
     window.onload = () => {
         const urlParams = new URLSearchParams(window.location.search);
         if(urlParams.has('n')) {
-            const data = {
+            globalData = {
                 n: urlParams.get('n'),
                 j: urlParams.get('j'),
                 p: urlParams.get('p'),
                 m: urlParams.get('m'),
                 l: urlParams.get('l')
             };
-            globalData = data;
-            document.getElementById("formArea").style.display = "none";
-            displayData(data);
-            // QR'ı gizleyelim, okutan kişi zaten sayfada
-            document.getElementById("qrPlaceholder").style.display = "none";
+            displayData(globalData);
+            // QR okutan kişiye "kendi QR'ını" göstermeye gerek yok, sadece butonları görsün
+            document.getElementById("qrContainer").style.display = "none";
+            document.getElementById("title").innerText = "KARTVİZİT";
         }
     };
 </script>
