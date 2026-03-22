@@ -11,7 +11,7 @@
         .container { background: var(--card); padding: 40px; border-radius: 30px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); width: 100%; max-width: 400px; border: 1px solid #334155; text-align: center; }
         h2 { color: var(--accent); margin-bottom: 30px; font-weight: 700; letter-spacing: -1px; }
         
-        /* Form Stilleri */
+        /* Form Alanı */
         .form-group { text-align: left; margin-bottom: 12px; }
         label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-left: 5px; }
         input { width: 100%; padding: 12px 15px; border-radius: 12px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; outline: none; margin-top: 5px; transition: 0.3s; }
@@ -20,19 +20,19 @@
         .main-btn { width: 100%; padding: 16px; background: var(--accent); color: var(--bg); border: none; border-radius: 15px; font-weight: 700; cursor: pointer; margin-top: 20px; font-size: 14px; transition: 0.3s; }
         .main-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3); }
 
-        /* Sonuç Ekranı */
+        /* Sonuç Paneli */
         #resultArea { display: none; animation: fadeInUp 0.5s ease; }
         #qrImg { background: white; padding: 15px; border-radius: 20px; width: 160px; margin-bottom: 15px; box-shadow: 0 0 30px rgba(56, 189, 248, 0.2); }
         
         .action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 25px 0; }
-        .btn-small { padding: 14px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; color: white; }
+        .btn-small { padding: 14px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; color: white; text-align: center; text-decoration: none; }
         .btn-save { background: #10b981; } 
         .btn-cv { background: #f59e0b; }
         .btn-small:hover { opacity: 0.9; transform: translateY(-2px); }
         
         .info-display { background: rgba(15, 23, 42, 0.7); padding: 25px; border-radius: 20px; text-align: left; border: 1px solid #334155; }
         .info-row { margin-bottom: 12px; font-size: 14px; display: flex; align-items: flex-start; border-bottom: 1px solid rgba(51, 65, 85, 0.5); padding-bottom: 8px; }
-        .info-row b { color: var(--accent); width: 90px; flex-shrink: 0; font-size: 11px; text-transform: uppercase; }
+        .info-row b { color: var(--accent); width: 95px; flex-shrink: 0; font-size: 11px; text-transform: uppercase; }
         .info-row span { color: #cbd5e1; word-break: break-all; font-weight: 500; }
         
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -48,8 +48,8 @@
         <div class="form-group"><label>Meslek</label><input type="text" id="job" placeholder="Elektrik Elektronik Mühendisi"></div>
         <div class="form-group"><label>Telefon</label><input type="tel" id="phone" placeholder="05XXXXXXXXX"></div>
         <div class="form-group"><label>E-posta</label><input type="email" id="email" placeholder="mail@gmail.com"></div>
-        <div class="form-group"><label>LinkedIn (URL)</label><input type="url" id="linkedin" placeholder="linkedin.com/in/kullanici"></div>
-        <div class="form-group"><label>İlgi Alanları</label><input type="text" id="interests" placeholder="Sanat, Teknoloji, Tasarım"></div>
+        <div class="form-group"><label>LinkedIn (URL)</label><input type="url" id="linkedin" placeholder="linkedin.com/in/profil"></div>
+        <div class="form-group"><label>İlgi Alanları</label><input type="text" id="interests" placeholder="Sanat, Teknoloji, Yazılım"></div>
         
         <button class="main-btn" onclick="olustur()">PROFESYONEL QR OLUŞTUR</button>
     </div>
@@ -57,7 +57,8 @@
     <div id="resultArea">
         <div id="qrContainer">
             <div id="qrPlaceholder"></div>
-            <p style="font-size: 10px; color: #94a3b8; margin-bottom: 20px;">Bu QR'ı kaydedip her yerde paylaşabilirsiniz.</p>
+            <p style="font-size: 10px; color: #94a3b8; margin-bottom: 20px;">Bu QR'ı kaydedip paylaşabilirsiniz.</p>
+            <hr style="border: 0.5px solid #334155; margin-bottom: 20px;">
         </div>
         
         <div class="info-display">
@@ -90,12 +91,10 @@
 
         if(!data.n || !data.p) { alert("Lütfen isim ve telefon giriniz!"); return; }
         
-        // QR İçin URL Parametresi Oluşturma
         const baseUrl = window.location.href.split('?')[0];
         const params = new URLSearchParams(data).toString();
         const finalLink = `${baseUrl}?${params}`;
 
-        // QR API Servisi
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(finalLink)}`;
         document.getElementById("qrPlaceholder").innerHTML = `<img src="${qrUrl}" id="qrImg">`;
         
@@ -113,18 +112,33 @@
         document.getElementById("dInterests").innerText = data.i || "Sanat";
     }
 
+    // Telefon hatalarını önlemek için güncellenmiş vCard fonksiyonu
     function saveVCard() {
-        const vCard = `BEGIN:VCARD\nVERSION:3.0\nFN:${globalData.n}\nTITLE:${globalData.j}\nTEL:${globalData.p}\nEMAIL:${globalData.m}\nURL:${globalData.l}\nNOTE:İlgi Alanları: ${globalData.i}\nEND:VCARD`;
+        const vCard = [
+            "BEGIN:VCARD",
+            "VERSION:3.0",
+            `FN;CHARSET=UTF-8:${globalData.n}`,
+            `N;CHARSET=UTF-8:;${globalData.n};;;`,
+            `TITLE;CHARSET=UTF-8:${globalData.j}`,
+            `TEL;TYPE=CELL:${globalData.p}`,
+            `EMAIL;TYPE=INTERNET:${globalData.m}`,
+            `URL:${globalData.l}`,
+            `NOTE;CHARSET=UTF-8:İlgi Alanları: ${globalData.i}`,
+            "END:VCARD"
+        ].join("\n");
+
         const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), vCard], { type: "text/vcard;charset=utf-8" });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${globalData.n}.vcf`;
+        a.download = "kartvizit.vcf"; 
+        document.body.appendChild(a);
         a.click();
+        document.body.removeChild(a);
     }
 
+    // Görsel CV İndirme
     function downloadMiniCV() {
-        // Şık HTML CV Tasarımı
         const cvHtml = `
         <!DOCTYPE html>
         <html>
@@ -135,15 +149,15 @@
                 .card { background: white; width: 350px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); overflow: hidden; border-top: 10px solid #38bdf8; }
                 .head { background: #1e293b; color: white; padding: 25px; text-align: center; font-size: 20px; font-weight: bold; }
                 .box { padding: 30px; }
-                .row { margin-bottom: 20px; }
-                .label { color: #38bdf8; font-size: 10px; font-weight: bold; margin-bottom: 4px; display: block; }
-                .val { color: #1e293b; font-size: 16px; font-weight: 600; border-bottom: 1px solid #eee; padding-bottom: 5px; display: block; }
+                .row { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
+                .label { color: #38bdf8; font-size: 10px; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; display: block; }
+                .val { color: #1e293b; font-size: 16px; font-weight: 600; display: block; }
                 .footer { text-align: center; font-size: 10px; color: #94a3b8; padding: 20px; background: #fafafa; }
             </style>
         </head>
         <body>
             <div class="card">
-                <div class="head">📇 DİJİTAL KARTVİZİT</div>
+                <div class="head">📇 KARTVİZİT BİLGİLERİ</div>
                 <div class="box">
                     <div class="row"><span class="label">İSİM SOYAD</span><span class="val">${globalData.n}</span></div>
                     <div class="row"><span class="label">MESLEK</span><span class="val">${globalData.j}</span></div>
@@ -151,7 +165,7 @@
                     <div class="row"><span class="label">TELEFON</span><span class="val">${globalData.p}</span></div>
                     <div class="row"><span class="label">İLGİ ALANLARI</span><span class="val">${globalData.i || 'Sanat'}</span></div>
                 </div>
-                <div class="footer">Bu belge Diji-Card üzerinden otomatik oluşturulmuştur.</div>
+                <div class="footer">Diji-Card ile oluşturulmuştur.</div>
             </div>
         </body>
         </html>`;
@@ -160,11 +174,11 @@
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${globalData.n}_Dijital_CV.html`;
+        a.download = `Dijital_Kartvizit.html`;
         a.click();
     }
 
-    // QR İLE GİRİŞ KONTROLÜ
+    // QR Okutulup Okutulmadığını Kontrol Eden Mekanizma
     window.onload = () => {
         const urlParams = new URLSearchParams(window.location.search);
         if(urlParams.has('n')) {
@@ -174,7 +188,7 @@
             };
             displayData(globalData);
             document.getElementById("qrContainer").style.display = "none";
-            document.getElementById("pageTitle").innerText = "KARTVİZİT";
+            document.getElementById("pageTitle").innerText = "KİŞİSEL KART";
         }
     };
 </script>
